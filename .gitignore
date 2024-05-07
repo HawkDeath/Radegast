@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# IDE
+.vscode/
+.vs/
+.idea/
+
+# build
+build/
+out/
+output/
+build-debug/
+build-release/
+build-relwithdeb/

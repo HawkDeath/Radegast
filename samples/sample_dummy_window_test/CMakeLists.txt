@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.28)
+project(0_1_sample_dummy_window_test)
+
+add_executable(0_1_sample_dummy_window_test main.cpp)
+target_link_libraries(0_1_sample_dummy_window_test PRIVATE RadegastLib)
