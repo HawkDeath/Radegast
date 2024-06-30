@@ -5,3 +5,4 @@ project(samples)
 
 add_subdirectory(sample_dependency_test)
 add_subdirectory(sample_dummy_window_test)
+add_subdirectory(sample_device_instance_test)
