@@ -1,7 +1,7 @@
 #ifndef RADEGAST_RGWINDOW_H
 #define RADEGAST_RGWINDOW_H
 
-#include <GLFW/glfw3.h>
+struct GLFWwindow;
 
 namespace rg {
     class Window {
@@ -12,7 +12,7 @@ namespace rg {
 
         bool should_close();
 
-        void update_events();
+        static void update_events();
 
     private:
         GLFWwindow *window_handler;

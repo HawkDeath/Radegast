@@ -1,4 +1,4 @@
-#include <rgWindow.h>
+#include <platform/rgWindow.h>
 
 
 int main() {
@@ -6,7 +6,7 @@ int main() {
     rg::Window win_test;
     while (!win_test.should_close())
     {
-        win_test.update_events();
+         rg::Window::update_events();
     }
     return 0;
 }
