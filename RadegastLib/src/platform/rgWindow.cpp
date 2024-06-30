@@ -1,5 +1,5 @@
 #include <platform/rgWindow.h>
-#include <common/Logger.h>
+#include <common/rgLogger.h>
 #include <GLFW/glfw3.h>
 
 
