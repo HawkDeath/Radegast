@@ -1,19 +1,22 @@
 #ifndef RGDEVICE_H
 #define RGDEVICE_H
 
-#include <platform/rgWindow.h>
+#include <common/rgHelper.h>
 
+#include <platform/rgWindow.h>
+#include <rendering/core/rgInstance.h>
+#include <rendering/core/rgPhysicalDevice.h>
 #include <vulkan/vulkan.h>
 
 namespace rg {
-    class rgDevice {
+    class Device {
     public:
         // input: extensions to enable, reference to window (for surface creation)
-        rgDevice(Window &window);
+        Device(Window &window, Instance &instance, PhysicalDevice physical_device, ExtensionMap device_extensions = {});
 
-        ~rgDevice();
+        ~Device();
 
-        VkPhysicalDevice get_physical_device_handle() const { return m_physical_device; }
+        PhysicalDevice get_physical_device_handle() const { return m_physical_device; }
         VkSurfaceKHR get_surface_handle() const { return m_surface; }
         VkDevice get_device_handle() const { return m_device; }
         VkQueue get_graphics_queue() const { return m_graphcis_queue; }
@@ -21,16 +24,13 @@ namespace rg {
         VkQueue get_compute_queue() const { return m_compute_queue; }
 
     private:
-        void create_instance();
-
-        void pick_physical_device();
-
-        void create_device();
+        void create_device(ExtensionMap &device_extensions);
 
     private:
         Window &m_window;
-        VkInstance m_instance;
-        VkPhysicalDevice m_physical_device;
+        Instance &m_instance;
+        PhysicalDevice m_physical_device;
+
         VkSurfaceKHR m_surface;
         VkDevice m_device;
 

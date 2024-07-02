@@ -34,11 +34,16 @@ namespace rg {
     }
 
 
-    std::vector<const char *> Window::get_required_extensions() {
+    std::vector<const char *> Window::get_required_surface_extensions() {
         uint32_t glfwExtensionsCount = 0u;
         const char **glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionsCount);
 
         std::vector<const char *> extensions(glfwExtensions, glfwExtensions + glfwExtensionsCount);
+        LOGI("Extensions: ");
+        for (auto & e : extensions) {
+
+            LOGI("- {}", e);
+        }
         return extensions;
     }
 

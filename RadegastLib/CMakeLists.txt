@@ -3,6 +3,8 @@ project(RadegastLib)
 
 set(RadegastLib_SOURCE
         src/common/rgHelper.cpp
+        src/rendering/core/rgInstance.cpp
+        src/rendering/core/rgPhysicalDevice.cpp
         src/rendering/core/rgDevice.cpp
         src/platform/rgWindow.cpp )
 

@@ -19,7 +19,7 @@ namespace rg {
 
         void create_surface(VkInstance instance, VkSurfaceKHR &surface);
 
-        static std::vector<const char *> get_required_extensions();
+        static std::vector<const char *> get_required_surface_extensions();
 
         static void update_events();
 
