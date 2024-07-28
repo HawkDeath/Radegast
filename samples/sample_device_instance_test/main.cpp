@@ -7,7 +7,7 @@
 
 int main() {
     try {
-        rg::Window win_test{1920u, 1080u, "0_1_sample_dummy_window_test"};
+        rg::Window win_test{1920u, 1080u, "0_2_sample_device_instance_test"};
         rg::Instance instance {};
         auto gpus = instance.get_available_physical_device_list();
         if (gpus.empty()) return -2;
