@@ -8,11 +8,14 @@
 #include <rendering/core/rgPhysicalDevice.h>
 #include <vulkan/vulkan.h>
 
+// Temporary solution - TODO: create allocator class for memory allocator
+#include <vk_mem_alloc.h>
+
 namespace rg {
     class Device {
     public:
         // input: extensions to enable, reference to window (for surface creation)
-        Device(Window &window, Instance &instance, PhysicalDevice physical_device, ExtensionMap device_extensions = {});
+        Device(Window &window, Instance &instance, const PhysicalDevice& physical_device, ExtensionMap device_extensions = {});
 
         ~Device();
 
@@ -22,6 +25,8 @@ namespace rg {
         VkQueue get_graphics_queue() const { return m_graphcis_queue; }
         VkQueue get_present_queue() const { return m_present_queue; }
         VkQueue get_compute_queue() const { return m_compute_queue; }
+
+        static VmaAllocator& get_memory_allocator();
 
     private:
         void create_device(ExtensionMap &device_extensions);

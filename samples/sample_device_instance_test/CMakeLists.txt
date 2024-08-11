@@ -2,4 +2,4 @@ cmake_minimum_required(VERSION 3.28)
 project(0_2_sample_device_instance_test)
 
 add_executable(0_2_sample_device_instance_test main.cpp)
-target_link_libraries(0_2_sample_device_instance_test PRIVATE RadegastLib)
+target_link_libraries(0_2_sample_device_instance_test PRIVATE RadegastLib GPUOpen::VulkanMemoryAllocator)

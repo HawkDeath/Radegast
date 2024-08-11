@@ -32,3 +32,7 @@ option(GLFW_BUILD_INSTALL OFF)
 
 add_subdirectory(glfw)
 set_property(TARGET glfw PROPERTY FOLDER "deps")
+
+
+# VMA
+add_subdirectory(VMA)
