@@ -6,6 +6,7 @@ set(RadegastLib_SOURCE
         src/rendering/core/rgInstance.cpp
         src/rendering/core/rgPhysicalDevice.cpp
         src/rendering/core/rgDevice.cpp
+        src/rendering/core/rgSwapChain.cpp
         src/platform/rgWindow.cpp )
 
 add_library(RadegastLib STATIC ${RadegastLib_SOURCE})

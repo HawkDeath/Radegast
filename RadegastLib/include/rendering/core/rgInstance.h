@@ -8,14 +8,14 @@
 
 namespace rg
 {
-
-class Instance {
+class PhysicalDevice;
+class Instance final {
 public:
     Instance(ExtensionMap instance_extensions = {});
     ~Instance();
 
     [[nodiscard]] VkInstance get_instance_handler() const { return m_instance; }
-    std::vector<VkPhysicalDevice> get_available_physical_device_list();
+    std::vector<PhysicalDevice> get_available_physical_device_list();
 
 private:
     void create_instance(ExtensionMap &instance_extensions);

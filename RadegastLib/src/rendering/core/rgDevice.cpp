@@ -9,13 +9,23 @@
 #include <set>
 
 namespace rg {
-    // add two paramters for instance extensions and device extensions, add PhysicalDevice paramter
+    // add two parameters for instance extensions and device extensions, add PhysicalDevice parameter
     Device::Device(Window &window, Instance &instance, const PhysicalDevice& physical_device,
                    ExtensionMap device_extensions) : m_instance{instance}, m_window{window},
                                                      m_physical_device{physical_device},
                                                      m_device{VK_NULL_HANDLE} {
+        LOGI("Chosen GPU: {}", m_physical_device.get_physical_device_properties().deviceName);
         m_window.create_surface(m_instance.get_instance_handler(), m_surface);
         create_device(device_extensions);
+
+
+        VkCommandPoolCreateInfo cmd_pool_ci {};
+        cmd_pool_ci.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+        cmd_pool_ci.pNext = VK_NULL_HANDLE;
+        cmd_pool_ci.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+        cmd_pool_ci.queueFamilyIndex = m_graphcis_queue.idx;
+
+        VK_CHECK(vkCreateCommandPool(m_device, &cmd_pool_ci, nullptr, &m_command_pool), "Failed to create command pool");
 
         // bind VMA
         VmaVulkanFunctions vma_vulkan_functions {};
@@ -33,6 +43,7 @@ namespace rg {
     }
 
     Device::~Device() {
+        vkDestroyCommandPool(m_device, m_command_pool, nullptr);
         vkDestroyDevice(m_device, nullptr);
         vkDestroySurfaceKHR(m_instance.get_instance_handler(), m_surface, nullptr);
         auto &alloc = get_memory_allocator();
@@ -55,10 +66,10 @@ namespace rg {
 
 
     void Device::create_device(ExtensionMap &device_extensions) {
-        rg::QueueFamilyIndices indices = findQueueFamilies(m_physical_device, m_surface);
+        QueueFamilyIndices indices = findQueueFamilies(m_physical_device, m_surface);
 
         std::vector<VkDeviceQueueCreateInfo> queues_create_infos;
-        std::set<uint32_t> unique_queues_familes = {
+        std::set unique_queues_familes = {
             indices.graphcisQueue.value(), indices.presentQueue.value(), indices.computeQueue.value()
         };
 
@@ -105,9 +116,12 @@ namespace rg {
         VK_CHECK(
             vkCreateDevice(m_physical_device.get_physical_device_handle(), &device_create_info, nullptr, &m_device),
             "Failed to create device");
+        m_graphcis_queue.idx = indices.graphcisQueue.value();
+        m_present_queue.idx = indices.presentQueue.value();
+        m_compute_queue.idx = indices.computeQueue.value();
 
-        vkGetDeviceQueue(m_device, indices.graphcisQueue.value(), 0u, &m_graphcis_queue);
-        vkGetDeviceQueue(m_device, indices.presentQueue.value(), 0u, &m_present_queue);
-        vkGetDeviceQueue(m_device, indices.computeQueue.value(), 0u, &m_compute_queue);
+        vkGetDeviceQueue(m_device, m_graphcis_queue.idx, 0u, &m_graphcis_queue.handle);
+        vkGetDeviceQueue(m_device, m_present_queue.idx, 0u, &m_present_queue.handle);
+        vkGetDeviceQueue(m_device, m_compute_queue.idx, 0u, &m_compute_queue.handle);
     }
 }

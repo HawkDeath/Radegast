@@ -1,4 +1,5 @@
 #include <rendering/core/rgInstance.h>
+#include <rendering/core/rgPhysicalDevice.h>
 #include <platform/rgWindow.h>
 #include <common/rgLogger.h>
 
@@ -21,7 +22,7 @@ namespace rg {
             .applicationVersion = VK_MAKE_VERSION(0, 0, 1),
             .pEngineName = "radegest_engine",
             .engineVersion = VK_MAKE_VERSION(0, 0, 1),
-            .apiVersion = VK_MAKE_API_VERSION(1, 3, 0, 0)
+            .apiVersion = VK_MAKE_API_VERSION(1, 4, 0, 0)
         };
 
         // rg::Window::get_required_surface_extensions() return only extensions required by GLFW
@@ -49,16 +50,22 @@ namespace rg {
         LOGI("rgDevice - Vulkan Instance has been created");
     }
 
-    std::vector<VkPhysicalDevice> Instance::get_available_physical_device_list() {
+    std::vector<PhysicalDevice> Instance::get_available_physical_device_list() {
         uint32_t device_count = 0u;
         vkEnumeratePhysicalDevices(m_instance, &device_count, nullptr);
 
         if (device_count == 0u) {
             RT_THROW("Cannot find ANY GPU supported Vulkan API (Vulkan API 1.3)");
         }
-        std::vector<VkPhysicalDevice> devices(device_count);
-        vkEnumeratePhysicalDevices(m_instance, &device_count, devices.data());
+        std::vector<VkPhysicalDevice> devs(device_count);
+        vkEnumeratePhysicalDevices(m_instance, &device_count, devs.data());
         LOGI("Available GPU device(s): {}", device_count);
+        std::vector<PhysicalDevice> devices;
+
+        for (auto &gpu : devs) {
+            devices.emplace_back(static_cast<VkPhysicalDevice>(gpu));
+        }
+
 
         return devices;
     }

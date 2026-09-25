@@ -58,4 +58,8 @@ namespace rg {
     }
 
     VkPhysicalDeviceFeatures &PhysicalDevice::get_mutable_reqeusted_features() { return m_reqested_device_features; }
+
+    VkPhysicalDeviceProperties PhysicalDevice::get_physical_device_properties() const {
+        return m_device_properties;
+    }
 }

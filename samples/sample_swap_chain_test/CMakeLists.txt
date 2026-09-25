@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.28)
+project(0_3_sample_swap_chain_test)
+
+add_executable(0_3_sample_swap_chain_test main.cpp)
+target_link_libraries(0_3_sample_swap_chain_test PRIVATE RadegastLib GPUOpen::VulkanMemoryAllocator)
